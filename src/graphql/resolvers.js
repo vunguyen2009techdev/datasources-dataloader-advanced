@@ -66,7 +66,7 @@ export const resolvers = {
   Project: {
     topics: async (root, __, { dataSources: { Topic } }) => {
       return await Topic.findManyByQuery(
-        { projectIds: root._id },
+        { query: { projectIds: root._id } },
         { ttl: 120 }
       );
     },
@@ -81,7 +81,10 @@ export const resolvers = {
   },
   Label: {
     projects: async (root, __, { dataSources: { Project } }) => {
-      console.log("is Root: ", root);
+      return await Project.findManyByQuery(
+        { query: { labelIds: root._id } },
+        { ttl: 120 }
+      );
     },
   },
 };
